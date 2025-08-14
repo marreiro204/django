@@ -1,2 +1,2 @@
-# django-pro2
+# django-pro
 passo-a-passo deploy django
