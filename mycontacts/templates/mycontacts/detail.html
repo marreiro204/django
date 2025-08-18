@@ -1,0 +1,9 @@
+<h2>Detalhes do Contato</h2>
+<p><strong>Nome:</strong> {{ contact.name }}</p>
+<p><strong>Relação:</strong> {{ contact.relation }}</p>
+<p><strong>Telefone:</strong> {{ contact.phone }}</p>
+<p><strong>Email:</strong> {{ contact.email }}</p>
+
+<a href="{% url 'edit' contact.id %}">✏ Editar</a> |
+<a href="{% url 'delete' contact.id %}">🗑 Excluir</a> |
+<a href="{% url 'show' %}">⬅ Voltar</a>

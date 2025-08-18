@@ -21,6 +21,9 @@ from mycontacts import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.show),
-    path('add/', views.add),
+    path('', views.show, name='show'),
+    path('add/', views.add, name='add'),
+    path('contact/<int:id>/', views.detail, name='detail'),
+    path('contact/<int:id>/edit/', views.edit, name='edit'),
+    path('contact/<int:id>/delete/', views.delete, name='delete'),
 ]

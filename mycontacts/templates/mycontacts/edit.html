@@ -1,0 +1,14 @@
+<h2>Editar Contato</h2>
+<form method="post">
+    {% csrf_token %}
+    <label>Nome:</label><br>
+    <input type="text" name="name" value="{{ contact.name }}"><br>
+    <label>Relação:</label><br>
+    <input type="text" name="relation" value="{{ contact.relation }}"><br>
+    <label>Telefone:</label><br>
+    <input type="text" name="phone" value="{{ contact.phone }}"><br>
+    <label>Email:</label><br>
+    <input type="email" name="email" value="{{ contact.email }}"><br><br>
+    <button type="submit">Salvar</button>
+</form>
+<a href="{% url 'edit' contact.id %}">Cancelar</a>

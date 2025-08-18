@@ -1,0 +1,8 @@
+<h2>Excluir Contato</h2>
+<p>Tem certeza que deseja excluir <strong>{{ contact.name }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sim, excluir</button>
+    <a href="{% url 'delete' contact.id %}">Cancelar</a>
+</form>
