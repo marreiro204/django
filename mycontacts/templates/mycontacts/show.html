@@ -2,27 +2,36 @@
 {% load static %}
 
 {% block content %}
-<div class="container-show">
-    <ul class="grid" style="list-style-type: none">
-        
-    {% for contact in contacts %}
-    <li>
-        <div>
-            <h2 class="name">{{ contact.name }}</h2>
-            <div class="relation">{{ contact.relation }}</div>
-            <div class="phone">{{ contact.phone }}</div>
-            <div class="email"><a href='{{ contact.email }}'>{{ contact.email }}</a> </div>
+<link rel="stylesheet" href="{% static 'css/show.css' %}">
+
+<h1>Meus Contatos</h1>
+
+{% if contacts %}
+<ul class="grid">
+    {% for contato in contacts %}
+    <li class="contact-card">
+        <div class="name">{{ contato.name }}</div>
+        {% if contato.relation %}
+        <div class="relation">{{ contato.relation }}</div>
+        {% endif %}
+        <div class="phone">{{ contato.phone }}</div>
+        {% if contato.email %}
+        <div class="email">
+            <a href="mailto:{{ contato.email }}">{{ contato.email }}</a>
         </div>
-        <!-- Ações CRUD -->
+        {% endif %}
+
         <div class="actions">
-                <a href="{% url 'detail' contact.id %}">👁 Ver</a> | 
-                <a href="{% url 'edit' contact.id %}">✏ Editar</a> | 
-                <a href="{% url 'delete' contact.id %}">🗑 Excluir</a>
-            </div>
+            <a href="{% url 'edit' contato.id %}" class="btn-edit">Editar</a>
+            <a href="{% url 'delete' contato.id %}" class="btn-delete">Excluir</a>
         </div>
     </li>
-    {%  endfor %}
-    
-    </ul>
-</div>      
-{% endblock content %}
+    {% endfor %}
+</ul>
+{% else %}
+<p>Nenhum contato cadastrado.</p>
+{% endif %}
+
+
+{% endblock %}
+

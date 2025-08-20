@@ -13,34 +13,16 @@ def show(request):
     return render(request, 'mycontacts/show.html',{'contacts': contact_list})
     
 def add(request):
-    """ This function is called to add one contact member to your contact list in your Database """
+    """ Adiciona um contato ao banco de dados """
     if request.method == 'POST':
-        
-        django_form = AddForm(request.POST)
-        if django_form.is_valid():
-           
-            """ Assign data in Django Form to local variables """
-            new_member_name = django_form.data.get("name")
-            new_member_relation = django_form.data.get("relation")
-            new_member_phone = django_form.data.get('phone')
-            new_member_email = django_form.data.get('email')
-            
-            """ This is how your model connects to database and create a new member """
-            Contact.objects.create(
-                name =  new_member_name, 
-                relation = new_member_relation,
-                phone = new_member_phone,
-                email = new_member_email, 
-                )
-                 
-            contact_list = Contact.objects.all()
-            return render(request, 'mycontacts/show.html',{'contacts': contact_list})    
-        
-        else:
-            """ redirect to the same page if django_form goes wrong """
-            return render(request, 'mycontacts/add.html')
+        form = AddForm(request.POST)
+        if form.is_valid():
+            form.save()  # Salva diretamente no banco
+            return redirect('show')  # Redireciona para a página que mostra os contatos
     else:
-        return render(request, 'mycontacts/add.html')
+        form = AddForm()  # Se for GET, apenas exibe o formulário vazio
+
+    return render(request, 'mycontacts/add.html', {'form': form})
 # READ (detalhes de 1 contato)
 def detail(request, id):
     contact = get_object_or_404(Contact, pk=id)
