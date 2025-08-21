@@ -116,3 +116,5 @@ Este guia mostra como fazer o deploy de um projeto Django no PythonAnywhere pass
 
 2.  Seu site Django deve estar funcionando com os arquivos CSS carregados.
 
+ veja o projeto em funcionamento [aqui](https://matheus23.pythonanywhere.com).
+
