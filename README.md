@@ -2,106 +2,117 @@
 
 Este guia mostra como fazer o deploy de um projeto Django no PythonAnywhere passo a passo.
 
+---
+
 ## Pré-requisitos
 
-- Conta no [PythonAnywhere](https://www.pythonanywhere.com/)
-- Projeto Django pronto no GitHub
-- Git instalado no seu computador (opcional, caso faça deploy via Git clone)
-- Conhecimento básico em Django
+* Conta no [PythonAnywhere](https://www.pythonanywhere.com/)
+* Projeto Django pronto no GitHub
+* Git instalado no seu computador (opcional, caso faça deploy via Git clone)
+* Conhecimento básico em Django
 
 ---
 
 ## Passo 1: Criar uma conta e login
 
-1. Crie uma conta gratuita ou faça login no [PythonAnywhere](https://www.pythonanywhere.com/).
-2. Após o login, você será direcionado ao **Dashboard**.
+1.  Crie uma conta gratuita ou faça login no [PythonAnywhere](https://www.pythonanywhere.com/).
+2.  Após o login, você será direcionado ao **Dashboard**.
 
 ---
 
 ## Passo 2: Clonar o projeto no PythonAnywhere
 
-1. Vá para a aba **Files**.
-2. Abra um **Bash console** (na aba **Consoles**).
-3. Clone seu repositório do GitHub:
+1.  Vá para a aba **Files**.
+2.  Abra um **Bash console** (na aba **Consoles**).
+3.  Clone seu repositório do GitHub.
 
-```bash
+    Exemplo:
+    ```bash
+    git clone [https://github.com/seu_usuario/seu_repositorio.git](https://github.com/seu_usuario/seu_repositorio.git)
+    ```
 
-Exemplo:
+    Entre na pasta do projeto:
+    ```bash
+    cd nome_da_sua_pasta
+    ```
 
-git clone https://github.com/matheus23/django.git
+---
 
+## Passo 3: Criar e ativar o virtual environment
 
-Entre na pasta do projeto:
+1.  Crie um virtualenv para seu projeto:
+    ```bash
+    python3.11 -m venv myvenv
+    ```
 
-cd django
+2.  Ative o ambiente virtual:
+    ```bash
+    source myvenv/bin/activate
+    ```
 
-Passo 3: Criar e ativar o virtual environment
+3.  Instale as dependências do seu projeto:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Crie um virtualenv para seu projeto:
+---
 
-python3.11 -m venv myvenv
+## Passo 4: Configurar o Django
 
+1.  Abra o arquivo `settings.py` do seu projeto.
 
-Ative o ambiente virtual:
+2.  Adicione a configuração do **STATIC_ROOT**:
+    ```python
+    import os
 
-source myvenv/bin/activate
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    ```
 
+3.  Configure o **ALLOWED_HOSTS** com seu domínio do PythonAnywhere:
+    ```python
+    ALLOWED_HOSTS = ['seu_usuario.pythonanywhere.com']
+    ```
 
-Instale as dependências do seu projeto:
+4.  Colete os arquivos estáticos:
+    ```bash
+    python manage.py collectstatic
+    ```
 
-pip install -r requirements.txt
+---
 
-Passo 4: Configurar o Django
+## Passo 5: Criar o Web App no PythonAnywhere
 
-Abra o arquivo settings.py do seu projeto.
+1.  Vá para a aba **Web** e clique em **Add a new web app**.
+2.  Escolha **Manual configuration** → **Python 3.x**.
 
-Adicione a configuração do STATIC_ROOT:
+3.  Configure o path do **WSGI**:
+    * Exemplo: `/home/seu_usuario/seu_projeto/seu_projeto/wsgi.py`
 
-import os
+4.  Configure o virtualenv:
+    * Exemplo: `/home/seu_usuario/seu_projeto/myvenv/`
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+---
 
+## Passo 6: Configurar arquivos estáticos no PythonAnywhere
 
-Configure o ALLOWED_HOSTS com seu domínio do PythonAnywhere:
+1.  Ainda na aba **Web**, vá até **Static files**.
+2.  Configure:
 
-ALLOWED_HOSTS = ['matheus23.pythonanywhere.com']
+    | URL        | Directory                            |
+    | ---------- | ------------------------------------ |
+    | /static/   | /home/seu_usuario/seu_projeto/staticfiles |
 
+3.  Salve as alterações e clique em **Reload** para aplicar.
 
-Colete os arquivos estáticos:
+---
 
-python manage.py collectstatic
+## Passo 7: Testar o site
 
-Passo 5: Criar o Web App no PythonAnywhere
+1.  Abra seu navegador e acesse:
+    ```
+    https://seu_[usuario.pythonanywhere.com/](https://usuario.pythonanywhere.com/)
+    ```
 
-Vá para a aba Web e clique em Add a new web app.
-
-Escolha Manual configuration → Python 3.x.
-
-Configure o path do WSGI:
-Exemplo: /home/matheus23/django/django/wsgi.py
-
-Configure o virtualenv:
-Exemplo: /home/matheus23/django/myvenv/
-
-Passo 6: Configurar arquivos estáticos no PythonAnywhere
-
-Ainda na aba Web, vá até Static files.
-
-Configure:
-
-URL	Directory
-/static/	/home/matheus23/django/staticfiles
-
-Salve as alterações e clique em Reload para aplicar.
-
-Passo 7: Testar o site
-
-Abra seu navegador e acesse:
-
-https://matheus23.pythonanywhere.com/
-
-
-Seu site Django deve estar funcionando com os arquivos CSS carregados.
-git clone https://github.com/seu_usuario/seu_repositorio.git
+2.  Seu site Django deve estar funcionando com os arquivos CSS carregados.
 
